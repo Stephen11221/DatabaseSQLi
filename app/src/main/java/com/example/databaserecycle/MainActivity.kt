@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import com.example.databaserecycle.databinding.ActivityMainBinding
 import com.google.firebase.database.DatabaseReference
@@ -29,6 +30,19 @@ class MainActivity : AppCompatActivity() {
               var email =binding.email.text.toString()
               var age=binding.age.text.toString()
 
+              database = FirebaseDatabase.getInstance().getReference("User")
+              val user=User(name,email,age)
+              database.child(name).setValue(user).addOnSuccessListener {
+                  binding.name.text.clear()
+                  binding.email.text.clear()
+                  binding.age.text.clear()
+
+                  Toast.makeText(this, "Successffull", Toast.LENGTH_SHORT).show()
+
+              }.addOnFailureListener{
+                  Toast.makeText(this, "Fail Try Again", Toast.LENGTH_SHORT).show()
+              }
+
           }
 
 
@@ -37,3 +51,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
+
+annotation class ActivityMainBinding
